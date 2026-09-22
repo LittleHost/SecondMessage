@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matras Projects — Официальное Портфолио</title>
+    <meta name="description" content="Официальное портфолио Matras Projects: модификации World Soccer Champs, игры и другие проекты.">
+
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --bg-soft: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.65);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-color: #38bdf8;
+            --accent-2: #818cf8;
+            --accent-glow: rgba(56, 189, 248, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --status-green: #4ade80;
+            --nav-height: 68px;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: calc(var(--nav-height) + 20px);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный фон с плавающими световыми пятнами */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.55;
+            z-index: -1;
+            pointer-events: none;
+        }
+        body::before {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, var(--accent-color), transparent 70%);
+            top: -120px;
+            left: -120px;
+            animation: floatA 14s ease-in-out infinite alternate;
+        }
+        body::after {
+            width: 460px;
+            height: 460px;
+            background: radial-gradient(circle, var(--accent-2), transparent 70%);
+            bottom: -160px;
+            right: -140px;
+            animation: floatB 16s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatA {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(60px, 40px) scale(1.15); }
+        }
+        @keyframes floatB {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(-50px, -30px) scale(1.1); }
+        }
+
+        /* Верхняя шапка */
+        header {
+            background-color: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 18px 16px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+            animation: slideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-2), var(--accent-color));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Основной контент */
+        main {
+            flex: 1;
+            max-width: 820px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 28px 16px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 40px;
+            height: 3px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-2));
+            animation: growLine 0.7s 0.2s both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes growLine {
+            from { width: 0; opacity: 0; }
+            to   { width: 40px; opacity: 1; }
+        }
+
+        /* Главная страница */
+        .hero {
+            text-align: center;
+            padding: 48px 24px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(30, 41, 59, 0.5) 100%);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, transparent, rgba(56, 189, 248, 0.15), transparent 30%);
+            animation: rotate 8s linear infinite;
+            pointer-events: none;
+        }
+        .hero > * { position: relative; z-index: 1; }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Карточки */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 22px;
+            border-radius: var(--radius);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.35s ease,
+                        box-shadow 0.35s ease;
+            opacity: 0;
+            animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.08), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 18px 40px -18px var(--accent-glow);
+        }
+
+        .card:hover::before { left: 100%; }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Задержка появления карточек */
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.12s; }
+        .card:nth-child(3) { animation-delay: 0.19s; }
+        .card:nth-child(4) { animation-delay: 0.26s; }
+        .card:nth-child(5) { animation-delay: 0.33s; }
+        .card:nth-child(6) { animation-delay: 0.40s; }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Пульсирующий индикатор статуса */
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--status-green);
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+            animation: pulse 2s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+            70%  { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+        }
+
+        .info-list {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .info-list li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .info-list strong { color: var(--text-main); }
+
+        /* Кнопки-ссылки */
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(56, 189, 248, 0.12);
+            color: var(--accent-color);
+            padding: 11px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-2));
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 0;
+        }
+
+        .btn-link span, .btn-link .arrow {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-link:hover::before { transform: translateX(0); }
+        .btn-link:hover {
+            color: #0b1120;
+            border-color: transparent;
+        }
+        .btn-link:hover .arrow { transform: translateX(4px); }
+        .btn-link:active { transform: scale(0.98); }
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        /* Нижняя навигация */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 0 8px;
+            animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to   { transform: translateY(0); }
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: color 0.25s ease, transform 0.25s ease;
+            width: 33.33%;
+            height: 100%;
+            justify-content: center;
+            position: relative;
+            gap: 3px;
+        }
+
+        .nav-btn .icon {
+            font-size: 1.35rem;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .nav-btn:hover .icon { transform: translateY(-3px) scale(1.1); }
+
+        .nav-btn.active {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .nav-btn.active .icon {
+            animation: pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes pop {
+            0%   { transform: scale(1); }
+            50%  { transform: scale(1.35); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* Индикатор-пилюля под активной кнопкой */
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            width: 0;
+            height: 3px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-2));
+            transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .nav-btn.active::after { width: 28px; }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-color), var(--accent-2));
+            border-radius: 10px;
+            border: 2px solid var(--bg-color);
+        }
+
+        /* Доступность: отключение анимаций */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Matras Projects</h1>
+    </header>
+
+    <main>
+        <section id="home" class="tab-content active">
+            <div class="hero">
+                <h2>Добро пожаловать!</h2>
+                <p>Это официальное портфолио Матраса. Здесь вы можете увидеть модификации на WSC, игры и так далее.</p>
+            </div>
+        </section>
+
+        <section id="projects" class="tab-content">
+            <h2 class="section-title">Мои Проекты 📔</h2>
+            <div class="card-grid">
+
+                <div class="card">
+                    <div>
+                        <h3><span class="status-dot"></span>Мод «Сезон 2020» на WSC</h3>
+                        <ul class="info-list">
+                            <li><strong>Версия:</strong> 11.2 v6.4</li>
+                            <li><strong>Статус:</strong> Выпущен / обновляется</li>
+                            <li><strong>Дата выхода:</strong> 29.08.2026</li>
+                            <li><strong>Последнее обновление:</strong> 30.08.2026</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/WSCMODS_STUDIO/520" target="_blank" rel="noopener" class="btn-link">
+                        <span>Скачать / Посмотреть</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3><span class="status-dot"></span>Мод с подписчиками на WSC</h3>
+                        <ul class="info-list">
+                            <li><strong>Версия:</strong> 11.2 v4.0</li>
+                            <li><strong>Статус:</strong> Выпущен / обновляется</li>
+                            <li><strong>Дата выхода:</strong> 29.07.2026</li>
+                            <li><strong>Последнее обновление:</strong> ❌</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/WSCMODS_STUDIO/417" target="_blank" rel="noopener" class="btn-link">
+                        <span>Скачать / Посмотреть</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Мод «Сезон 2006» на WSC</h3>
+                        <ul class="info-list">
+                            <li><strong>Версия:</strong> 11.2 v3.0</li>
+                            <li><strong>Статус:</strong> Выпущен</li>
+                            <li><strong>Дата выхода:</strong> 08.07.2026</li>
+                            <li><strong>Последнее обновление:</strong> ❌</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/WSCMODS_STUDIO/360" target="_blank" rel="noopener" class="btn-link">
+                        <span>Скачать / Посмотреть</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Взлом 11.2 на WSC</h3>
+                        <ul class="info-list">
+                            <li><strong>Версия:</strong> 11.2 v1.0</li>
+                            <li><strong>Статус:</strong> Выпущен</li>
+                            <li><strong>Дата выхода:</strong> 05.07.2026</li>
+                            <li><strong>Последнее обновление:</strong> ❌</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/WSCMODS_STUDIO/332" target="_blank" rel="noopener" class="btn-link">
+                        <span>Скачать / Посмотреть</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3><span class="status-dot"></span>Футбольный менеджер «Wreble»</h3>
+                        <ul class="info-list">
+                            <li><strong>Версия:</strong> v1.3.1</li>
+                            <li><strong>Статус:</strong> Альфа-версия / обновляется</li>
+                            <li><strong>Дата выхода:</strong> 19.08.2026</li>
+                            <li><strong>Последнее обновление:</strong> 20.08.2026</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/wreble/15" target="_blank" rel="noopener" class="btn-link">
+                        <span>Перейти к игре</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="contact" class="tab-content">
+            <h2 class="section-title">Связаться со мной 🗣</h2>
+            <div class="card-grid">
+
+                <div class="card">
+                    <div>
+                        <h3>Разработчик / Матрас</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 12px;">Личный контакт для связи и вопросов.</p>
+                    </div>
+                    <a href="https://t.me/AnttoineGriezmann" target="_blank" rel="noopener" class="btn-link">
+                        <span>Написать в Telegram</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Канал с WSC модификациями</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 12px;">Все релизы модов, патчей и обновления.</p>
+                    </div>
+                    <a href="https://t.me/WSCMODS_PIDORASI" target="_blank" rel="noopener" class="btn-link">
+                        <span>Перейти в канал</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <h3>Канал футбольной игры</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 12px;">Новости и патчи футбольного менеджера Wreble.</p>
+                    </div>
+                    <a href="https://t.me/Wreble" target="_blank" rel="noopener" class="btn-link">
+                        <span>Перейти в канал</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <nav>
+        <button class="nav-btn active" onclick="openTab(event, 'home')" aria-label="Главная">
+            <span class="icon">🏠</span>
+            <span>Главная</span>
+        </button>
+        <button class="nav-btn" onclick="openTab(event, 'projects')" aria-label="Проекты">
+            <span class="icon">📔</span>
+            <span>Проекты</span>
+        </button>
+        <button class="nav-btn" onclick="openTab(event, 'contact')" aria-label="Связь">
+            <span class="icon">🗣</span>
+            <span>Связь</span>
+        </button>
+    </nav>
+
+    <script>
+        function openTab(evt, tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const target = document.getElementById(tabName);
+            target.classList.add('active');
+
+            // Перезапуск анимации появления карточек
+            const cards = target.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.animation = 'none';
+                // Принудительный reflow для перезапуска анимации
+                void card.offsetWidth;
+                card.style.animation = '';
+            });
+
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
